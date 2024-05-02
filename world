@@ -1,0 +1,34 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+def lorenz(x, y, z):
+    sigma = 10
+    rho = 28
+    beta = 8/3
+    dx = sigma * (y - x)
+    dy = rho * x - y - z * x
+    dz = z * (rho - x) - beta * z
+    return dx, dy, dz
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+max_time = 20
+timesteps = 10000
+dt = 0.01
+
+x0 = np.random.rand()
+y0 = np.random.rand()
+z0 = np.random.rand()
+
+data = np.zeros((timesteps, 3))
+data[0] = [x0, y0, z0]
+
+for i in range(1, timesteps):
+    x, y, z = lorenz(data[i - 1, 0], data[i - 1, 1], data[i - 1, 2])
+    data[i] = [x, y, z]
+
+ax.plot(data[:, 0], data[:, 1], data[:, 2], linewidth=0.1)
+
+plt.show()
